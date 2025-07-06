@@ -46,35 +46,43 @@ document.querySelectorAll('.feature-card').forEach(card => {
 });
 
 // Notification form handling
-const notifyForm = document.getElementById('notifyForm');
-const formMessage = document.querySelector('.form-message');
+document.addEventListener('DOMContentLoaded', function() {
+    const notifyForm = document.getElementById('notifyForm');
+    const formMessage = document.querySelector('.form-message');
 
-notifyForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = notifyForm.querySelector('input[type="email"]').value;
-    const button = notifyForm.querySelector('button');
-    
-    // Disable button and show loading state
-    button.disabled = true;
-    button.textContent = 'Sending...';
-    
-    try {
-        // Simulate API call - Replace this with your actual API endpoint
-        await new Promise(resolve => setTimeout(resolve, 1000));
+    notifyForm.addEventListener('submit', function(e) {
+        e.preventDefault();
         
-        // Success message
-        formMessage.textContent = 'Thank you! We\'ll notify you when ZianOS launches.';
-        formMessage.className = 'form-message success';
-        notifyForm.reset();
-    } catch (error) {
-        // Error message
-        formMessage.textContent = 'Oops! Something went wrong. Please try again.';
-        formMessage.className = 'form-message error';
-    } finally {
-        // Reset button state
-        button.disabled = false;
-        button.textContent = 'Notify Me';
-    }
+        const email = notifyForm.querySelector('input[type="email"]').value;
+        const button = notifyForm.querySelector('button');
+        
+        // Disable the button and show loading state
+        button.disabled = true;
+        button.textContent = 'Sending...';
+        formMessage.textContent = '';
+
+        // Send email using EmailJS
+        emailjs.send(
+            'YOUR_SERVICE_ID', // Add your EmailJS service ID
+            'YOUR_TEMPLATE_ID', // Add your EmailJS template ID
+            {
+                subscriber_email: email,
+                to_email: 'your-email@example.com', // Add your email here
+                subscription_date: new Date().toLocaleDateString()
+            }
+        ).then(function() {
+            formMessage.textContent = 'Thanks! You\'ll be notified when we launch.';
+            formMessage.className = 'form-message success';
+            notifyForm.reset();
+        }).catch(function(error) {
+            formMessage.textContent = 'Oops! Something went wrong. Please try again.';
+            formMessage.className = 'form-message error';
+            console.error('EmailJS error:', error);
+        }).finally(function() {
+            button.disabled = false;
+            button.textContent = 'Notify Me';
+        });
+    });
 });
 
 // Intersection Observer for fade-in animations

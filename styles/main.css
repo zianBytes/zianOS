@@ -101,7 +101,20 @@ h1 {
 .subtitle {
     font-size: 1.25rem;
     margin-bottom: 2rem;
-    opacity: 0.9;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 700;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle span {
+    font-family: 'Zen Dots', cursive;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
 .cta-buttons {
